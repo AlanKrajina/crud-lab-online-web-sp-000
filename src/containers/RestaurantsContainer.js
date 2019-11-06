@@ -1,25 +1,35 @@
 import React, { Component } from 'react'
-import RestaurantInput from '../components/restaurants/RestaurantInput'
-import Restaurants from '../components/restaurants/Restaurants'
+import ReviewInput from '../components/reviews/ReviewInput'
+import Reviews from '../components/reviews/Reviews'
 import { connect } from 'react-redux'
 
-class RestaurantsContainer extends Component {
+class ReviewsContainer extends Component {
 
   render() {
     return (
+// this.props.restaurant -> deleteRest: ƒ deleteRest(id) id: "ck2n7r2ds00003a5yy0x2zsyt" text: "sdf
       <div>
-        <RestaurantInput addRestaurant={this.props.addRestaurant}/>
-        <Restaurants restaurants={this.props.restaurants} deleteRest={this.props.deleteRest} />
+        <ReviewInput 
+        addReview={this.props.addReview} 
+        restaurantId={this.props.restaurant.id} //promjenio u props u inputu pa sad salje
+        />
+        <Reviews
+        reviews={this.props.reviews} 
+        deleteReview={this.props.deleteReview}
+        restaurantId={this.props.restaurant.id} //ovdje salje ID
+        />
       </div>
     )
   }
 }
 
-const mapStateToProps = ({ restaurants }) => ({ restaurants })
+const mapStateToProps = state => ({
+  reviews: state.reviews
+});
 
 const mapDispatchToProps = dispatch => ({
-  addRestaurant: text => dispatch({ type: 'ADD_RESTAURANT', text}),
-  deleteRest: id => dispatch({type: 'DELETE_RESTAURANT', id})
+  addReview: review => dispatch({ type: 'ADD_REVIEW', review}), 
+  deleteReview: id => dispatch({type: 'DELETE_REVIEW', id})
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestaurantsContainer)
+export default connect(mapStateToProps,mapDispatchToProps)(ReviewsContainer)
